@@ -33,7 +33,6 @@ public class Lumina implements ModInitializer {
 
     private final MinecraftClient mc = MinecraftClient.getInstance();
 
-    private static final KeyBinding openClickGuiKey = new KeyBinding("key.lumina.open_click_gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_ALT, "category.lumina");
     private static final KeyBinding openHudConfigScreenKey = new KeyBinding("key.lumina.open_hud_config_screen", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, "category.lumina");
 
     @Override
@@ -43,8 +42,7 @@ public class Lumina implements ModInitializer {
         CapeManager.init();
         ChatMessage.init();
         new GithubRetriever().retrieve();
-
-        KeyBindingHelper.registerKeyBinding(openClickGuiKey);
+        
         KeyBindingHelper.registerKeyBinding(openHudConfigScreenKey);
 
        // SessionChanger.loginCracked("SomeName");
@@ -61,8 +59,9 @@ public class Lumina implements ModInitializer {
                 if(MinecraftClient.getInstance().currentScreen!=null) return;
                 if (event.getKey() == module.getKey()) module.toggle();
             }
-
-            if (openClickGuiKey.wasPressed()) {
+            //didnt make the keybind change thing who uses cgui in other keys
+            if (event.getKey() == GLFW.GLFW_KEY_RIGHT_SHIFT) {
+                if(MinecraftClient.getInstance().currentScreen!=null) return;
                 switch (ClickguiModule.clickguiMode.getMode()) {
                     case "New" -> {
                         mc.setScreen(ClickGui.instance);
@@ -71,14 +70,12 @@ public class Lumina implements ModInitializer {
                         mc.setScreen(me.stormcph.lumina.ui.old_clickgui.ClickGui.INSTANCE);
                     }
                     default -> {
-                        JFrame frame = new JFrame();
-                        frame.setVisible(true);
                         JOptionPane.showMessageDialog(null, "How the fuck did you manage this", "Invalid ClickGUI Mode", JOptionPane.ERROR_MESSAGE);
                         System.out.println("How the fuck did you manage this");
                     }
                 }
-
             }
+            
             if (openHudConfigScreenKey.wasPressed()) mc.setScreen(new HudConfigScreen());
         }
     }
