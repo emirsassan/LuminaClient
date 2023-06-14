@@ -70,6 +70,8 @@ public class Lumina implements ModInitializer {
                         mc.setScreen(me.stormcph.lumina.ui.old_clickgui.ClickGui.INSTANCE);
                     }
                     default -> {
+                        JFrame frame = new JFrame();
+                        frame.setVisible(true);
                         JOptionPane.showMessageDialog(null, "How the fuck did you manage this", "Invalid ClickGUI Mode", JOptionPane.ERROR_MESSAGE);
                         System.out.println("How the fuck did you manage this");
                     }
